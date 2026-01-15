@@ -23,6 +23,43 @@
 [코랩 링크](https://colab.research.google.com/drive/1NmfyRcj7LbsJBN8xMbdVhPBdeRgje0o-#scrollTo=LQEfg_XBHbS9)
 
 ---
+# 결측치 
+: 수집된 데이터 셋 중 관측되지 않은 특정 확률변수의 값
+
+## 종류
+- MCAR : 결측치가 완전히 random으로 발생
+- MAR : 결측치가 관측된 특정 변수로 추정 가능
+- MNAR : 결측치가 random으로 발생 x, 관측값, 결측값 모두에게 영향을 받음
+
+## 결측치 대체 방법
+- 단순 & 평균 & 단순 확률 & 다중 대치법
+
+# 데이터 분포 변형 방법론
+
+## 표준화 
+: 데이터가 평균으로부터 얼마나 떨어져서 분포하는지 표현하는 변환(표준정규분포)
+- 선형회귀
+- 로지스틱회귀
+- 선형판별분석
+
+## 정규화 
+: 상대적 크기에 대한 영향을 줄이기 위한 변환
+- MinMax 스케일링
+- Robust 스케일링
+- [0,1] 스케일링
+
+# 범주형 변수
+종류 - 명목형, 순서형
+
+## 인코딩 방법
+- One Hot Encoding
+    - Cardinality(범주의 개수)가 작을 때 사용
+    - 항상 직교하여 거리 정보가 의미 x
+    - 희소행렬 문제가 발생
+- Hashing Encoding
+    - Hashing trick을 활용하여 인코딩 하는 방식
+    - One-hot encoding 대비 더 적은 dummy variable 생성 가능
+---
 # 데이터 전처리
 ## 넘파이로 데이터 준비하기
 ```
