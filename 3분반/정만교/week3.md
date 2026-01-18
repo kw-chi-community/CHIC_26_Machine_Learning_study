@@ -5,6 +5,60 @@
 
 정의, 장/단점
 # week3 : 선형회귀와 분류
+
+
+
+## Random Error : 입실론
+train/val 을 어떻게 나누던 e 의 분포는 다음과 같다
+* E(e) = 0
+* Var(e) = σ²
+* e ~ N(0, σ²)
+
+### 모델의 기대값
+
+기대값 
+$$
+\begin{aligned}
+E(Y_i) &= E(\beta_0 + \beta_1 X_i + \epsilon_i) \\
+&= \beta_0 + \beta_1 X_i + E(\epsilon_i) \\
+&= \beta_0 + \beta_1 X_i
+\end{aligned}
+$$
+
+### 모델의 분산
+분산
+$$
+\begin{aligned}
+Var(Y_i) &= Var(\beta_0 + \beta_1 X_i + \epsilon_i)
+\end{aligned}
+$$
+
+여기서 중요한 전제:
+* $X_i$는 고정값(fixed)으로 취급
+* $\beta_0, \beta_1$는 상수
+
+그래서:
+$$
+Var(\beta_0 + \beta_1 X_i) = 0
+$$
+
+결과적으로:
+$$
+Var(Y_i) = Var(\epsilon_i) = \sigma^2
+$$
+
+### **의미**
+* 모델의 불확실성은 전부 오차항에서 온다
+
+
+
+
+
+
+
+
+
+
 ## keyword
 - Loss Function
 - LR(linear regression), Logit(logistic regression), SVM(support vector machine)
@@ -59,6 +113,9 @@ $MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$
 2. SVD 통해서 선형 차원 축소 &rarr; (wᵀx)
 3. 각 feature(귀 모양, 코...)에 주어진 가중치의 선형결합을 합산 &rarr; (wᵀx + b)
 4. 시그모이드 함수로 확률에 따른 분류
+
+
+---
 
 ## SVM : Support Vector Machine
 ![](res/svm.png)
@@ -166,7 +223,7 @@ $$ MSE = \underbrace{\text{Bias}^2}_{\text{단순함의 대가}} + \underbrace{\
 * variance : 데이터 값이 조금만 달라져도 예측이 크게 달라짐
 
 > bias 가 높다 &rarr; 모델이 멍청하다(underfitting)  
-> variance 가 높다 &rarr; 모델이 예민하다(overfitting)
+> variance 가 높다 &rarr; 모델이 너무 예민하다(overfitting)
 
 #### 일반화 성능 모델
 `Robust` 하다, `Good fit` 하다 라고 표현
