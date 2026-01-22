@@ -1,0 +1,73 @@
+# 선형회귀 및 분류 핵심 요약 정리
+
+## 1. Loss Function (손실 함수)
+
+- *정의: 모델 예측값과 실제값의 차이를 측정하는 함수
+- *MSE (Mean Squared Error): 회귀에서 주로 사용. 잔차 제곱의 합을 최소화함
+    - 식: MSE=n1∑i=1n(yi−y^i)2
+- *Cross-Entropy: 분류(Logistic Regression)에서 사용. 확률 분포의 차이를 측정함
+
+## 2. 모델 분석: LR, Logit, SVM
+
+- *LR (Linear Regression): 연속형 종속변수 예측
+    - 기본 가정: 선형성, 정규성, 등분산성, 독립성
+    - 식: Y=β0+β1X1+⋯+βpXp+ϵ
+- *Logit (Logistic Regression): 이진 분류 모델. 선형 결합을 시그모이드 함수에 통과시켜 확률로 변환함
+    - 시그모이드 식: f(x)=1+e−x1
+- *SVM (Support Vector Machine): 데이터 간의 마진(Margin)을 최대화하는 결정 경계를 찾음
+    - 커널 트릭을 통해 비선형 데이터 처리 가능
+
+## 3. Regularization (규제화): Ridge, Lasso, Elastic Net
+
+- *목적: 모델 복잡도에 패널티를 부여하여 과적합(Overfitting) 방지 및 다중공선성 해결
+- *Ridge (L2 Regularization):
+    - 회귀계수의 제곱합을 패널티로 부여 (λ∑β2)
+    - 계수를 0에 가깝게 축소하나 0으로 만들지는 않음
+- *Lasso (L1 Regularization):
+    - 회귀계수 절대값의 합을 패널티로 부여 (λ∑∣β∣)
+    - 중요하지 않은 변수의 계수를 0으로 만들어 *변수 선택 기능 수행
+- *Elastic Net:
+    - L1과 L2 규제를 결합함. 상관관계가 높은 변수가 많을 때 유리함
+
+### Python 코드 예시 (scikit-learn)
+
+Python
+
+from sklearn.linear_model import Ridge, Lasso, Elastic Net
+
+# Ridge (L2)
+ridge = Ridge(alpha=1.0)
+ridge.fit(X_train, y_train)
+
+# Lasso (L1)
+lasso = Lasso(alpha=0.1)
+lasso.fit(X_train, y_train)
+
+# Elastic Net
+elastic = ElasticNet(alpha=0.1, l1_ratio=0.5)
+elastic.fit(X_train, y_train)
+
+## 4. Bias-Variance Trade-off
+
+- *Bias (편향): 실제값에서 모델 예측값이 얼마나 떨어져 있는지 나타냄 (과소적합과 관련)
+- *Variance (분산): 다양한 훈련 데이터에 대해 예측값이 얼마나 변하는지 나타냄 (과적합과 관련)
+- *트레이드오프 관계:
+    - 모델이 복잡해질수록 Bias ↓, Variance ↑
+    - 모델이 단순해질수록 Bias ↑, Variance ↓
+    - *Total Error = Bias² + Variance + Irreducible Error
+
+## 5. 모델 진단 및 다중공선성 (Linear Regression III 참고)
+
+- *다중공선성 (Multicollinearity)**: 독립변수들 간에 강한 상관관계가 나타나는 문제
+- *진단 방법: **VIF (Variance Inflation Factor) 지수 확인
+    - 보통 VIF > 10 이상이면 다중공선성이 심각하다고 판단함
+- *해결책: 변수 제거, PCA(주성분 분석), 또는 **Ridge/Lasso 같은 규제 모델 사용
+
+Python
+
+# VIF 계산 예시 코드
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+vif_data = pd.DataFrame()
+vif_data["feature"] = X.columns
+vif_data["VIF"] = [variance_inflation_factor(X.values, i) for i in range(len(X.columns))]
