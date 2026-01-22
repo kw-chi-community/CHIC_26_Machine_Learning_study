@@ -1,0 +1,95 @@
+3주차
+
+## 1. 회귀와 분류
+
+회귀(Regression)는 반응변수 Y가 연속형 숫자(예: 집값, 매출액, 온도 등)일 때 사용되는 수치 예측 모델이고, 분류(Classification)는 Y가 범주형(예: 스팸/정상, 합격/불합격, 고객 이탈 여부 등)일 때 사용하는 범주 예측 모델이다. 선형회귀(Linear Regression)는 Y가 수치형일 때 입력변수 X와 출력변수 Y 사이의 관계를 선형식으로 설명하고 미래 값을 예측하는 모델로, 로지스틱회귀(Logistic Regression)와 SVM(Support Vector Machine)은 Y가 범주형일 때 사용하는 대표적인 분류 모델이다. 선형회귀는 연속값 예측, 로지스틱회귀는 확률 기반 이진 분류, SVM은 마진 최대화를 통한 분류에 각각 특화되어 있다.
+
+## 2. 선형회귀의 기본 개념과 모델 표현
+
+선형회귀모델은 출력변수 Y를 입력변수 X들의 선형결합으로 표현한 확률적 모델로, 기본 형태는  
+$$ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \varepsilon $$  
+이다. 여기서 $\beta_0$은 절편(intercept), $\beta_1, \beta_2, \dots, \beta_p$는 각각 각 독립변수의 회귀계수(coefficient), $\varepsilon$는 오차항(error term)이다. 
+
+단순 선형회귀(Simple Linear Regression)는 독립변수가 1개일 때  
+$$ Y = \beta_0 + \beta_1 X $$  
+형태를 사용하고, 다중 선형회귀(Multiple Linear Regression)는 독립변수가 2개 이상일 때 적용된다. 
+
+변수 사이의 관계는 확정적 관계 $Y = f(X)$와 확률적 관계 $Y = f(X) + \varepsilon$로 구분되며, 실제 데이터에서는 항상 오차항이 존재하는 확률적 관계를 가정한다.
+
+선형회귀의 기본 가정으로는 (1) 선형성(linearity: Y와 X 간 선형 관계), (2) 오차항의 독립성(independence), (3) 오차항의 등분산성(homoscedasticity), (4) 오차항의 정규성(normality)이 필요하며, 이 가정들이 성립해야 통계적 추론(가설검정, 신뢰구간 등)이 유효하다.
+
+## 3. Loss Function(손실함수)과 파라미터 추정 과정
+
+Loss Function(비용함수, 손실함수)은 모델의 예측값 $\hat{Y}$와 실제값 Y의 차이를 수치적으로 측정하는 함수로, 모델 학습의 목표는 이 값을 최소화하는 파라미터 $\beta$를 찾는 것이다. 
+
+선형회귀에서는 SSE(Sum of Squared Errors, 오차제곱합)  
+$$ SSE = \sum (Y_i - \hat{Y}_i)^2 $$  
+또는 MSE(Mean Squared Error, 평균제곱오차)  
+$$ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$  
+를 주로 사용한다. SSE/MSE는 오차의 제곱을 사용하므로 이상치(outlier)에 민감하고, 미분 가능하여 최적화에 적합하며, 볼록 함수(convex function)이므로 전역 최소값이 유일하게 존재한다.
+
+파라미터 추정은 최소제곱법(Ordinary Least Squares, OLS)을 통해 이루어지며, SSE를 $\beta$에 대해 편미분한 후 0으로 놓고 해를 구한다:  
+$$ \frac{\partial SSE}{\partial \beta_j} = 0 $$  
+이 과정에서 일반적으로  
+$$ \hat{\beta} = (X^T X)^{-1} X^T Y $$  
+공식이 도출된다. 
+
+결정계수  
+$$ R^2 = 1 - \frac{SSE}{SST} $$  
+는 모델이 데이터의 전체 변동(SST: Total Sum of Squares)을 얼마나 설명하는지(0~1 사이 값)를 나타내며, 1에 가까울수록 좋은 모델이다.
+
+분류 모델의 경우 로지스틱회귀에서는 Cross-Entropy Loss(로그 손실함수)  
+$$ -\sum \left[ y_i \log(\hat{p}_i) + (1-y_i) \log(1-\hat{p}_i) \right] $$  
+를 사용하여 예측 확률 $\hat{p}$와 실제 레이블 간 차이를 측정한다.
+
+## 4. 선형회귀의 통계적 해석과 추정량 성질
+
+추정량의 성질로는 점추정(single point value)과 구간추정(confidence interval)이 있다. 가우스-마르코프 정리(Gauss-Markov Theorem)에 따르면, 선형회귀의 4대 기본 가정(선형성, 오차 독립성, 등분산성, 무상관성)이 성립할 때 OLS로 구한 회귀계수 추정량 $\hat{\beta}$는 BLUE(Best Linear Unbiased Estimator) 성질을 가진다. BLUE의 의미는 (1) Best: 모든 선형 불편 추정량 중 분산이 가장 작음, (2) Linear: 관측값의 선형결합 형태, (3) Unbiased: $\mathbb{E}[\hat{\beta}] = \beta$ (기댓값이 참값과 일치하는 불편성)이다.
+
+가설검정에서는 개별 회귀계수 $\beta_j$의 유의성을 검증한다. 귀무가설 $H_0: \beta_j = 0$ (해당 X가 Y에 영향 없음) vs 대립가설 $H_1: \beta_j \neq 0$ (영향 있음)을 설정하고, t-통계량  
+$$ t = \frac{\hat{\beta}_j}{SE(\hat{\beta}_j)} $$  
+(기울기 추정값 / 표준오차)을 계산한다. p-값은 $H_0$이 참일 때 관측된 t 이상이 나올 확률로, 유의수준 α=0.05에서 p<0.05이면 귀무가설을 기각하고 변수의 효과가 통계적으로 유의하다고 판단한다.
+
+분산분석(ANOVA)에서는 SST(총제곱합: 전체 변동) = SSR(회귀제곱합: 모델 설명 변동) + SSE(잔차제곱합: 설명되지 않은 변동) 관계가 성립하며, F-통계량  
+$$ F = \frac{MSR}{MSE} $$  
+로 전체 모델의 유의성을 검정한다.
+
+## 5. Regularization(규제화): Ridge, Lasso, Elastic Net 상세
+
+일반 선형회귀(OLS)는 다중공선성(multicollinearity)이나 과적합(overfitting)이 발생할 수 있어 규제화 기법을 사용한다. Ridge 회귀(L2 Regularization)는 비용함수에 계수 제곱합 패널티를 추가  
+$$ \text{Loss} = SSE + \lambda \sum_j \beta_j^2 $$  
+하여 모든 계수를 0에 가깝게 축소(shrink)하지만 정확히 0이 되지는 않으며, 특히 다중공선성 문제가 심할 때 회귀계수 추정의 안정성을 높인다.
+
+Lasso 회귀(L1 Regularization)는  
+$$ \text{Loss} = SSE + \lambda \sum_j |\beta_j| $$  
+로 계수 절댓값 합을 패널티로 부여하여, 중요하지 않은 변수의 계수를 정확히 0으로 만들어 변수 선택(feature selection) 기능을 자연스럽게 수행한다. 그러나 상관관계가 높은 변수 그룹에서 불안정할 수 있다.
+
+Elastic Net은 Ridge와 Lasso를 결합한  
+$$ \text{Loss} = SSE + \lambda \left[ \alpha \sum_j |\beta_j| + (1 - \alpha)\sum_j \beta_j^2 \right] $$  
+형태로, $\alpha=1$이면 Lasso, $\alpha=0$이면 Ridge가 된다. 상관관계가 높은 변수들이 많거나 p>>n (변수 수가 표본 수보다 많음) 상황에서 가장 효과적이다. $\lambda$는 규제 강도, $\alpha$는 L1/L2 비율을 조절한다.
+
+## 6. Bias-Variance Trade-off 상세 분석
+
+Bias(편향)는 모델이 실제 데이터 생성 과정(진짜 함수)을 얼마나 잘 근사하는지 나타내며, 모델이 지나치게 단순하면 bias가 커져 과소적합(underfitting)이 발생한다. Variance(분산)는 훈련 데이터셋이 바뀔 때 예측값이 얼마나 변동하는지 나타내며, 모델이 지나치게 복잡하면 variance가 커져 과적합(overfitting)이 발생한다. 총 예측 오차는  
+$$ \text{Total Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error} $$  
+(불가피한 노이즈)로 분해된다.
+
+OLS는 가우스-마르코프 가정 하에서 bias=0이고 variance가 최소인 최적 추정량(BLUE)이지만, 다중공선성이나 고차원 데이터에서 variance가 급격히 증가한다. 규제화(Ridge/Lasso/Elastic Net)는 의도적으로 약간의 bias를 도입하여 variance를 크게 줄여 총오차를 최소화하며, 특히 테스트 데이터(일반화 성능)에서 우수한 성능을 보인다. 복잡한 모델(Bias↓ Variance↑)에서 단순한 모델(Bias↑ Variance↓)로 이동하며 trade-off를 조절한다.
+
+## 7. 다중공선성과 VIF 진단 및 해결
+
+다중공선성(Multicollinearity)은 독립변수 X들 간 강한 상관관계로 인해 개별 $\beta_j$ 추정의 분산이 인플레이션되어 표준오차가 커지고, 계수 부호/크기 해석이 불안정해지는 문제이다. VIF(Variance Inflation Factor)로 진단하며,  
+$$ VIF_j = \frac{1}{1-R_j^2} $$  
+(j번째 변수로 다른 변수를 회귀한 $R^2$)로, VIF>10이면 심각, VIF>5~10은 주의, VIF<5는 양호하다.
+
+해결책으로는 (1) 상관계수 확인 후 높은 변수 제거/합치기, (2) 차원축소(PCA, 주성분분석), (3) Ridge/Lasso/Elastic Net 같은 규제 모델 사용, (4) 더 많은 데이터 수집 등이 있다. 규제 모델이 가장 실용적이다.
+
+## 8. 분류모델 상세: Logistic Regression과 SVM
+
+Logistic Regression(Logit)은 이진 분류에서 사건 발생 확률을 예측하며, 선형결합  
+$$ z = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p $$  
+를 시그모이드(sigmoid) 함수  
+$$ \sigma(z) = \frac{1}{1 + e^{-z}} $$  
+(0~1 범위 출력)에 통과시켜 확률 $\hat{p} = P(Y=1|X)$로 변환한다. 최대우도추정(MLE)으로 학습하며, 결정경계는 $\sigma(z) = 0.5$ 즉 $z=0$이다. 다중클래스로 확장(One-vs-Rest, Softmax) 가능하다.
+
+SVM(Support Vector Machine)은 클래스 간 마진(margin: 결정경계까지의 거리)을 최대화하는 초평면(hyperplane)을 찾는다. 서포트 벡터(support vectors: 경계에 가장 가까운 점들)만 학습에 기여하며, 소프트 마진(slack variable)으로 이상치 처리, 커널 트릭(kernel trick: RBF, polynomial 등)으로 비선형 분리 가능하다. 분류 외 SVR(Support Vector Regression)도 존재한다.
