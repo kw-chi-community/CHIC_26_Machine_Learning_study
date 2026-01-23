@@ -44,6 +44,11 @@
 - **정규화 (Normalization)**: 0~1 범위 등으로 스케일링 – MinMax, Robust 스케일링 등
 - **기타 변환**: **로그 변환**, **Box‑Cox 변환** – 왜도(스키워니스) 완화, 비선형 관계 선형화
 
+#### 궁금한점
+1. normalization 과 standardization 차이
+2. standardization 의 사용 이유 ? &rarr; 통계 분포를 같게 만들면 data가 주는 의미가 사라지지 않나..?
+
+
 ---
 
 # 범주형 변수 (Categorical Variable) 처리
@@ -64,6 +69,7 @@
 ---
 
 # 이상치 (Outlier) 정의 및 처리
+
 
 ## 이상치 정의
 - **일반적**: 다른 관측치와 현저히 차이 나는 데이터 포인트
@@ -95,6 +101,46 @@
 - **Cook’s Distance** – `D > 1` 또는 사전 정의 기준 초과 시 이상치
 - **기타**: Mahalanobis 거리, LOF, Isolation Forest 등
 
+#### outlier vs noise : noise 는 `y^ - y` 이고 outlier는 y- 에서 많이 벗어난 sample 값
+
+
+---
+## SST = SSR + SSE
+
+**SST (Total Sum of Squares, 총제곱합)**  
+- **의미**: 종속변수 $y$ 자체가 평균 주변에서 얼마나 흩어져 있는가.  
+- **기준**: 전체 평균 $\bar{y}$  
+
+$$\text{SST} = \sum_{i=1}^{n} (y_i - \bar{y})^2$$
+
+*직관*: “아무 모델도 안 쓰고 평균만 쓸 때의 총 변동량”
+
+**SSR (Regression Sum of Squares, 회귀제곱합)**  
+- **의미**: 회귀모델이 평균 대비 설명해낸 변동량.  
+- **기준**: 예측값 $\hat{y}_i$ 가 평균에서 얼마나 이동했는가.  
+
+$$\text{SSR} = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2$$
+
+*직관*: “모델이 구조를 잡아 평균에서 끌어올린 만큼”
+
+**SSE (Error / Residual Sum of Squares, 오차제곱합)**  
+- **의미**: 모델이 설명하지 못한 잔차의 크기.  
+- **기준**: 실제값과 예측값의 차이.  
+
+$$\text{SSE} = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+*직관*: “모델이 틀린 정도(학습 손실의 합)”
+
+**정의**  
+- $y$: 실제 관측값 (종속변수)  
+- $\hat{y}$: 모델이 예측한 값 (예측값)
+- $\bar{y}$: 전체 관측값의 평균 (Target Mean)
+
+## 결정계수 ($R^2$)와 연결
+$$R^2 = \frac{SSR}{SST} = 1 - \frac{SSE}{SST}$$
+
+- **해석**: 전체 변동 중 모델이 설명한 비율
+- **예**: $R^2 = 0.8 \rightarrow$ 80% 설명 
 ## 이상치 해결 방안
 - **Robust 중심** 및 **Robust 공분산 행렬** 활용
 - **Robust 회귀** 등 이상치에 강인한 모델 적용
@@ -159,3 +205,4 @@
   * 고소득자가 소득 응답을 의도적으로 회피하는 경우 → MCAR
   * 무작위 통신 오류로 특정 관측치가 누락된 경우 → MCAR
   * 설문 응답자가 민감한 질문을 회피하여 결측이 발생한 경우 → MAR
+
