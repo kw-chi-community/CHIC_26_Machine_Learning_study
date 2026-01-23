@@ -16,21 +16,13 @@ train/val 을 어떻게 나누던 e 의 분포는 다음과 같다
 ### 모델의 기대값
 
 기대값 
-$$
-\begin{aligned}
-E(Y_i) &= E(\beta_0 + \beta_1 X_i + \epsilon_i) \\
-&= \beta_0 + \beta_1 X_i + E(\epsilon_i) \\
-&= \beta_0 + \beta_1 X_i
-\end{aligned}
-$$
+$$ E(Y_i) = E(\beta_0 + \beta_1 X_i + \epsilon_i) $$
+$$ = \beta_0 + \beta_1 X_i + E(\epsilon_i) $$
+$$ = \beta_0 + \beta_1 X_i $$
 
 ### 모델의 분산
 분산
-$$
-\begin{aligned}
-Var(Y_i) &= Var(\beta_0 + \beta_1 X_i + \epsilon_i)
-\end{aligned}
-$$
+$$ Var(Y_i) = Var(\beta_0 + \beta_1 X_i + \epsilon_i) $$
 
 여기서 중요한 전제:
 * $X_i$는 고정값(fixed)으로 취급
@@ -69,16 +61,16 @@ $$
 > 문제를 정의하고 ML / DL 모델을 통해 최적화 하는 것
 
 * MSE : mean squared error (평균 제곱 오차)  
-$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$
+$$ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$
 
 * `실제값-예측값`의 제곱의 평균 
  
->$SSE = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$  
->$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$
+$$ SSE = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$
+$$ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$
 * SSE 를 평균 낸 값
 * ML/DL 에서는 SSE 보단 MSE를 많이 사용
-    * 데이터 크기에 독립
-    * gradient 관점: batch 크기가 작아서 학습 안정성이 높다
+    * 데이터 크기에 독립 (n으로 나눔)
+    * gradient 관점: batch 크기가 작아서 학습 안정성이 높다 (파라미터를 업데이트 하는 단위)
 
 ## linear regression
 * 선형회귀
@@ -171,6 +163,9 @@ Loss f : hinge function
 ## Regularization(규제)
 ### Ridge, Lasso, Elastic Net
 > Loss Function에 “벌점(penalty)”을 추가하는 것
+* 왜 벌점을 추가하는가?
+  * 모델이 “데이터를 너무 잘 설명하려다 생기는 과적합(overfitting)”을 막기 위해 추가함  
+
 ![](res/3/regularization.png)
 
 ### Lasso (L1 규제)
@@ -223,7 +218,7 @@ Loss f : hinge function
 
 
 
-## bias variance trade-off
+## bias variance trade-off (모델의 설명력)
 $$ MSE = \underbrace{\text{Bias}^2}_{\text{단순함의 대가}} + \underbrace{\text{Variance}}_{\text{민감함의 대가}} + \underbrace{\text{Noise}}_{\text{줄일 수 없음}} $$
 
 
