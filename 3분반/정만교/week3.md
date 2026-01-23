@@ -109,8 +109,8 @@ $MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$
 ![](res/3/sigmoid2.png)
 
 1. 이미지 input
-2. SVD 통해서 선형 차원 축소 &rarr; (wᵀx)
-3. 각 feature(귀 모양, 코...)에 주어진 가중치의 선형결합을 합산 &rarr; (wᵀx + b)
+2. SVD 통해서 선형 차원 축소 &rarr; ($w^T x$)
+3. 각 feature(귀 모양, 코...)에 주어진 가중치의 선형결합을 합산 &rarr; ($w^T x + b$)
 4. 시그모이드 함수로 확률에 따른 분류
 
 
@@ -134,17 +134,29 @@ $MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$
 
 Loss f : hinge function  
 (의미: support vectors 와 선의 거리를 최대화)  
-* argmin 일텐데 의미적인 부분에서 설명한 것
+* $\text{argmin}$ 일텐데 의미적인 부분에서 설명한 것
 
 
 
 ---
-## least square / unbiased estimation
-* sse 를 최소화
-현재 losss function을 SSE 로 잡음 -> 이건 squared sum error 니깐 quadratic form 으로 나옴 -> convex 한 형태임 제곱항이잖아 ->local minimum 이 global minimum 이고, 미분값이 0 인 지점이 최소값이다. -> least square estimation 
+## Least square / Unbiased estimation
+![](res/3/least_square.png)
+* SSE 를 최소화
+1. 현재 Loss function을 SSE 로 잡음 
+2. 이건 squared sum error 니깐 quadratic form 으로 나옴
+3. convex 한 형태임 제곱항 &rarr; 미분 시 다음과 같이 나옴
+![](res/3/sse_d.png)
+4. local minimum 이 global minimum 이고, 미분값이 0 인 지점이 최소값이다. 
+5. least square estimation 라고 함(unbiased estimation &rarr; 미분하기 때문에 bias 항에 무관)
 
 
 ## error 와 residual 의 차이점
+![](res/3/residual_error.png)
+* 파란 부분: 허용가능한 residual
+* 점: 관측된 데이터
+* error 관측되지 않음
+
+![](res/3/error.png)
 1. error : 이론적 개념 , 현실에 존재하지만 우리가 관측할 수 없는 개념 ( 어 왜 틀렸지? 이유를 못찾음 : e , 통계적으로 확률변수의 개념이라, 시행 후에도 분리해서 관측 할 수 없음 -> random seed 같은 것)
 
 
@@ -272,20 +284,20 @@ $$ R^2 = \frac{SSR}{SST} = \frac{\sum (\hat{y}_i - \bar{y})^2}{\sum (y_i - \bar{
   * 이 모델이 데이터를 얼마나 잘 설명하는지를 나타내는 비율 (설명력)
   *  "빅데이터 분석할 때 $R^2$을 가지고 회귀 예측을 했었는데 $R^2$이 설명력을 말하는 것이었음"
 
-#### overfitting/underfitting 나누는 R square 기준점?
-> Overfitting 여부는 R²의 절대값이 아니라, 훈련 데이터와 검증 데이터 간의 R² 차이로 판단한다
-* underfitting: 훈련 R²와 검증 R²가 모두 낮음
-* overfitting : 훈련 R²은 높으나 검증 R²가 크게 감소
+#### overfitting/underfitting 나누는 $R^2$ 기준점?
+> Overfitting 여부는 $R^2$의 절대값이 아니라, 훈련 데이터와 검증 데이터 간의 $R^2$ 차이로 판단한다
+* underfitting: 훈련 $R^2$와 검증 $R^2$가 모두 낮음
+* overfitting : 훈련 $R^2$은 높으나 검증 $R^2$가 크게 감소
 
 
 #### limitation
 * 결국 잘 설명하려는 것이 목표
 * $R^2$ 이 높아지기 위해서 모델은 data를 설명하는 parameter 들을 늘릴 수 밖에 없음
-* 잘 설명한다 -> R square 높다 (옳은 접근)
-* R square 를 높인다 -> 변수를 늘린다 (틀린 접근)
+* 잘 설명한다 -> $R^2$ 높다 (옳은 접근)
+* $R^2$ 를 높인다 -> 변수를 늘린다 (틀린 접근)
   * 인과관계가 바뀜
 
-#### adjusted R square
-* 특징 : parameter 가 많아지면 그만큼 weight 를 줄여서 파라미터 개수가 주는 R square에 대한 영향력을 줄임
+#### adjusted $R^2$
+* 특징 : parameter 가 많아지면 그만큼 weight 를 줄여서 파라미터 개수가 주는 $R^2$에 대한 영향력을 줄임
 
 
