@@ -254,7 +254,7 @@ $$ MSE = \underbrace{\text{Bias}^2}_{\text{단순함의 대가}} + \underbrace{\
 * variance : 데이터 값이 조금만 달라져도 예측이 크게 달라짐
 
 > bias 가 높다 &rarr; 모델이 멍청하다(underfitting)  
-> variance 가 높다 &rarr; 모델이 너무 예민하다(overfitting)
+> variance 가 높다 &rarr; 모델이 너무 예민하다(overfitting)k
 
 #### 일반화 성능 모델
 `Robust` 하다, `Good fit` 하다 라고 표현
