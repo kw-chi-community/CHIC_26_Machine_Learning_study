@@ -51,6 +51,7 @@ h(은닉층에서의 벡터) = x,y 의 state 들을 함수 f 에 넣은 값
 1. **vanishing gradient** (역전파 시 chain rule 에 의해  : da/db * db/dc * ... &rarr; gradient 값이 작아짐 &rarr; 가장 앞 부분 소실되어 학습 불가)
 
     ![](./res/6/gradient_vanishing.png)
+    * gradient는 sigmoid/tanh로 1보다 작음
 2. encoding 병목 (input을 넣어줄때 벡터로 넣어줘야하므로, 압축되어 정보 손실이 일어남)
 3. 병렬 학습 불가 (sequential 한 NN)
 4. vanishing gradient 때문에 문장이나 시퀀스가 길면 불안정
